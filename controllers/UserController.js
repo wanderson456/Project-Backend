@@ -1,5 +1,14 @@
 const UserModel = require('../models/UserModel');
+const MD5 = require('crypto-js/md5');
 class UserControler {
+
+
+    async listartodos(request,response){
+        const id = request.params.id;
+        let user   = await UserModel.findAll();
+       
+        return response.json(user);
+    }
     
 
     async listar(request,response){
@@ -11,6 +20,8 @@ class UserControler {
 
     async criar(request,response){
         const body= request.body;
+        const password = MD5(body.password).toString()
+        body.password = password;
         UserModel.create(body);
         return response.status(201).json({message: "Usuario cadastrado com sucesso"});
     }
