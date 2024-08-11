@@ -3,6 +3,7 @@ const app = express()
 const UserRotas = require('./routes/UserRotas');
 const CategoryRotas = require('./routes/CategoryRotas');
 const ProductsRotas = require('./routes/ProductsRotas');
+const PublicRotas = require('./routes/PublicRoutes');
 const host = 'localhost'
 const port = 3000;
 app.use(express.json())
@@ -13,6 +14,7 @@ app.get('/', (request,response)=>{
 app.use( UserRotas)
 app.use( CategoryRotas)
 app.use( ProductsRotas)
+app.use( PublicRotas)
 app.listen(3000,'localhost',()=>{
     console.log(`servidor executando em http://${host}:${port}`)
 
