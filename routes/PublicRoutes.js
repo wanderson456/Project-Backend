@@ -2,17 +2,17 @@ const express = require('express');
 const AuthController = require('../controllers/AuthController');
 var jwt = require('jsonwebtoken');
 require('dotenv').config()
-const RotasPublicas = express.Router();
-RotasPublicas.post('/v1/login', async (request,response )=>{
+const PublicRoutes = express.Router();
+PublicRoutes.post('/v1/user/token', async (request,response )=>{
     const body= request.body;
     const auth = new AuthController();
+    console.log(body);
     
-    const dados = await auth.login(body.firstname,body.password);
+    const dados = await auth.login(body.email,body.password);
     if(dados){
         const DataToken = {
             id:dados.id,
-            firstname:dados.firstname,
-            surname:dados.surname,
+            username:dados.username,
             email:dados.email,
             exp:Math.floor(Date.now() / 1000) + (60*60)
         }
@@ -33,4 +33,4 @@ RotasPublicas.post('/v1/login', async (request,response )=>{
 
 
 
-module.exports= RotasPublicas;
+module.exports= PublicRoutes ;

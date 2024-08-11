@@ -1,9 +1,55 @@
 const ProductModel = require('../models/ProductsModel');
 
 class ProductController {
+    async listAll(request,response){
+        
+        let product   = await ProductModel.findAll();
+       
+        return response.json(product);
+    }
 
+    async create(request, response) {
+        const { enabled, name, slug, stock, description, price, price_with_discount,  } = request.body;
     
-    async pesquisar(request, response) {
+        
+        if (!name || !slug || price === undefined || price_with_discount ) {
+            return response.status(400).json({ message: "Dados incompletos. Campos obrigatórios: name, slug, price, price_with_discount." });
+        }
+    
+        try {
+            
+            const newProduct = await ProductModel.create({
+                enabled,
+                name,
+                slug,
+                stock,
+                description,
+                price,
+                price_with_discount
+            });
+    
+           
+    
+        
+            return response.status(201).json({
+                message: "Produto cadastrado com sucesso",
+                product: {
+                    id: newProduct.id,
+                    enabled: newProduct.enabled,
+                    name: newProduct.name,
+                    slug: newProduct.slug,
+                    stock: newProduct.stock,
+                    description: newProduct.description,
+                    price: newProduct.price,
+                    price_with_discount: newProduct.price_with_discount,
+               
+                }
+            });
+        } catch (error) {
+            return response.status(500).json({ message: "Erro ao cadastrar produto", error });
+        }
+    }
+    async search(request, response) {
         try {
             const { limit = 12, page = 1, fields, match, category_ids, price_range, option } = request.query;
 
@@ -57,7 +103,7 @@ class ProductController {
     }
 
     
-    async listar(request, response) {
+    async searchByid(request, response) {
         try {
             const  id  = request.params.id;
             const product = await ProductModel.findOne({ where: { id } });
@@ -66,25 +112,26 @@ class ProductController {
                 return response.status(404).json({ message: "Produto não encontrado" });
             }
 
-            return response.json(product);
+            return response.json({
+                id: product.id,
+                enabled: product.enabled,
+                name: product.name,
+                slug: product.slug,
+                stock: product.stock,
+                description: product.description,
+                price:product.price,
+                price_with_discount: product.price_with_discount,
+               
+            });
         } catch (error) {
             return response.status(400).json({ message: "Erro ao buscar produto", error });
         }
     }
 
     
-    async criar(request, response) {
-        try {
-            const body = request.body;
-            const Product = await ProductModel.create(body);
-            return response.status(201).json(Product);
-        } catch (error) {
-            return response.status(400).json({ message: "Erro ao criar produto", error });
-        }
-    }
-
     
-    async atualizar(request, response) {
+    
+    async update(request, response) {
         try {
             const  id  = request.params.id;
             const productData = request.body;
@@ -102,7 +149,7 @@ class ProductController {
     }
 
     
-    async deletar(request, response) {
+    async delete(request, response) {
         try {
             const  id  = request.params.id;
 

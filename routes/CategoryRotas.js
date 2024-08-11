@@ -6,10 +6,11 @@ const categoryController = new CategoryController();
 
 
 
-CategoryRotas.get('/v1/category/:id', categoryController.listar)
-CategoryRotas.post('/v1/category',categoryController.criar)
-CategoryRotas.put('/v1/category/:id',categoryController.atualizar)
-CategoryRotas.delete('/v1/category/:id',categoryController.deletar)
+CategoryRotas.get('/v1/category/:id', categoryController.search)
+CategoryRotas.get('/v1/category/:id', categoryController.getById)
+CategoryRotas.post('/v1/category',categoryController.create)
+CategoryRotas.put('/v1/category/:id',categoryController.update)
+CategoryRotas.delete('/v1/category/:id',categoryController.delete)
 
 
 module.exports = CategoryRotas;
