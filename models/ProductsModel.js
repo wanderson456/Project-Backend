@@ -1,11 +1,25 @@
 const {  DataTypes, Model } = require('sequelize');
 const connection = require('../config/connection');
+const CategoryModel = require('../models/CategoryModel');
 
 class ProductsModel extends Model {
+   
+    
+    static associate({ ProductImagesModel, ProductOptionsModel, ProductCategoryModel }) {
+        this.hasMany(ProductImagesModel, { foreignKey: 'product_id', as: 'images' });
+        this.hasMany(ProductOptionsModel, { foreignKey: 'product_id', as: 'options' });
+       
+        
+
+
+      }
+    }
+    
+    
   
     
   
-}
+
 
 ProductsModel .init(
   {

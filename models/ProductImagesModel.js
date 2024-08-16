@@ -4,9 +4,14 @@ const ProductsModel = require('../models/ProductsModel');
 
 class ProductImagesModel extends Model {
   
+    static associate({ ProductImagesModel, ProductOptionsModel }) {
+      this.hasMany(ProductOptionsModel, { foreignKey: 'product_id',  });
+      this.hasMany(ProductImagesModel, { foreignKey: 'product_id', });
+    }
     
-  
 }
+  
+
 
 ProductImagesModel.init(
   {
@@ -19,7 +24,7 @@ ProductImagesModel.init(
         type:DataTypes.INTEGER,
         references: { 
             model: ProductsModel,
-              key: 'id' },
+              key: 'id' },onDelete:"CASCADE",
           
       },
     enabled:{
