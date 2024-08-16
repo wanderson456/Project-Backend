@@ -6,8 +6,8 @@ class ProductsModel extends Model {
    
     
     static associate({ ProductImagesModel, ProductOptionsModel, ProductCategoryModel }) {
-        this.hasMany(ProductImagesModel, { foreignKey: 'product_id', as: 'images' });
-        this.hasMany(ProductOptionsModel, { foreignKey: 'product_id', as: 'options' });
+        ProductsModel.hasOne(ProductImagesModel, { foreignKey: 'product_id', as: 'images' });
+        ProductsModel.hasMany(ProductOptionsModel, { foreignKey: 'product_id', as: 'options' });
        
         
 

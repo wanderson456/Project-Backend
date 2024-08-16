@@ -6,9 +6,12 @@ const ProductOptionsModel = require('../models/ProductOptionsModel');
 
 class ProductController {
     constructor(){
-        ProductModel.belongsToMany(ProductImagesModel, { through: 'ProductImages' });
-        ProductModel.belongsToMany(ProductOptionsModel, { through: 'ProductOptions' });
-        ProductModel.belongsToMany(CategoryModel, { through: ProductCategoryModel });
+        ProductModel.associate({ProductImagesModel,ProductOptionsModel})
+            
+        
+        //ProductModel.belongsToMany(ProductImagesModel, { through: 'ProductImages' });
+        //ProductModel.belongsToMany(ProductOptionsModel, { through: 'ProductOptions' });
+        //ProductModel.belongsToMany(CategoryModel, { through: ProductCategoryModel });
     }
 
     async listAll(request, response) {
@@ -16,6 +19,19 @@ class ProductController {
         try {
             const products = await ProductModel.findAll({
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
+                include: [
+                    {
+                        model: ProductImagesModel,
+                        as: 'images',
+                        attributes: ['id', 'path']
+                    },
+                    {
+                        model: ProductOptionsModel,
+                        as: 'options',
+                        
+                    },
+                
+                ]
                 
             });
             return response.json(products);
@@ -36,8 +52,17 @@ class ProductController {
                 enabled, name, slug, stock, description, price, price_with_discount
             }, {
                 include: [
-                    { model: ProductImagesModel, as: 'images' },
-                    { model: ProductOptionsModel, as: 'options' }
+                    {
+                        model: ProductImagesModel,
+                        as: 'images',
+                        attributes: ['id', 'path']
+                    },
+                    {
+                        model: ProductOptionsModel,
+                        as: 'options',
+                        
+                    },
+                
                 ]
             });
 
@@ -77,9 +102,7 @@ class ProductController {
                 whereConditions.price = { [Sequelize.Op.between]: [minPrice, maxPrice] };
             }
 
-            if (option) {
-                // Lógica para opções adicionais, ajustar conforme necessidade
-            }
+            
 
             const products = await ProductModel.findAll({
                 where: whereConditions,
@@ -102,7 +125,19 @@ class ProductController {
             const { id } = request.params;
             const product = await ProductModel.findOne({
                 where: { id },
-               
+                include: [
+                    {
+                        model: ProductImagesModel,
+                        as: 'images',
+                        attributes: ['id', 'path']
+                    },
+                    {
+                        model: ProductOptionsModel,
+                        as: 'options',
+                        
+                    },
+                
+                ]
             });
 
             if (!product) {
