@@ -2,7 +2,13 @@ const { DataTypes, Model } = require('sequelize');
 const connection = require('../config/connection');
 const ProductsModel = require('../models/ProductsModel');
 
-class ProductOptionsModel extends Model {}
+class ProductOptionsModel extends Model {
+  static associate({ ProductsModel }) {
+    this.belongsTo(ProductsModel, { foreignKey: 'product_id', as: 'product' });
+  }
+}
+  
+
 
 ProductOptionsModel.init(
   {
@@ -17,7 +23,7 @@ ProductOptionsModel.init(
       allowNull: false,  
       references: { 
         model: ProductsModel,
-        key: 'id' 
+        key: 'id' ,onDelete:"CASCADE",
       }
     },
 

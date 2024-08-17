@@ -4,6 +4,9 @@ const jwt = require('jsonwebtoken')
 const UserRouter = require('../routes/UserRotas')
 const CategoryRouter = require('../routes/CategoryRotas')
 const ProductsRouter = require('../routes/ProductsRotas')
+const ProducstImageRoutes = require('../routes/ProductImagensRouter')
+const ProducstOptionsRoutes = require('../routes/ProductOptionsRouter');
+const ProducstCategoryRoutes = require('../routes/ProductCategoryRoutes');
 
 require('dotenv').config()
 const PrivateRouters = express.Router();
@@ -12,6 +15,7 @@ const PrivateRouters = express.Router();
 
 PrivateRouters.use((request,response,next)=>{
     
+
     //verificando autorizaçao 
     let logged = false;
     const token = request.headers.token;
@@ -35,6 +39,9 @@ PrivateRouters.use((request,response,next)=>{
 PrivateRouters.use(UserRouter)
 PrivateRouters.use(CategoryRouter)
 PrivateRouters.use(ProductsRouter)
+PrivateRouters.use(ProducstImageRoutes)
+PrivateRouters.use(ProducstOptionsRoutes)
+PrivateRouters.use(ProducstCategoryRoutes)
 
 
 

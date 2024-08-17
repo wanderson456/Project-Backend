@@ -2,13 +2,13 @@ const {  DataTypes, Model } = require('sequelize');
 const connection = require('../config/connection');
 const ProductsModel = require('../models/ProductsModel');
 const CategoryModel = require('../models/CategoryModel');
-class Product_CategoryModel extends Model {
-  
-    
+
+class ProductCategoryModel extends Model {
+
   
 }
 
-Product_CategoryModel.init(
+ProductCategoryModel.init(
   {
     id: { 
         type: DataTypes.INTEGER, 
@@ -20,7 +20,7 @@ Product_CategoryModel.init(
         references: {
           model: ProductsModel,
           key: 'id',
-        },
+        },onDelete:"CASCADE",
         allowNull: false,
     },
     category_id:{
@@ -28,7 +28,7 @@ Product_CategoryModel.init(
         references: {
           model: CategoryModel,
           key: 'id',
-        },
+        },onDelete:"CASCADE",
         allowNull: false,
     },
   },
@@ -41,4 +41,4 @@ Product_CategoryModel.init(
   },
 );
 
-module.exports = Product_CategoryModel;
+module.exports = ProductCategoryModel;

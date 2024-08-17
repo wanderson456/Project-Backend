@@ -2,9 +2,20 @@ const {  DataTypes, Model } = require('sequelize');
 const connection = require('../config/connection');
 
 class CategoryModel extends Model {
-  
+ 
+  static associate({ ProductImagesModel, ProductOptionsModel }) {
     
+    ProductsModel.belongsToMany(CategoryModel, {
+        through: ProductCategoryModel,
+        as: 'category_ids',
+        foreignKey: 'product_id'
+        
+    });
+    
+
+  }
   
+
 }
 
 CategoryModel.init(
