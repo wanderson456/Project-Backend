@@ -1,21 +1,21 @@
 const ProductImagesModel = require('../models/ProductImagesModel');
 const ProductModel = require('../models/ProductsModel');
 const CategoryModel = require('../models/CategoryModel');
-const ProductCategoryModel = require('../models/Product_CategoryModel');
+
 const ProductOptionsModel = require('../models/ProductOptionsModel');
+const ProductCategoryModel = require('../models/ProductCategoryModel');
 
 class ProductController {
     constructor(){
-        ProductModel.associate({ProductImagesModel,ProductOptionsModel})
+        ProductModel.associate({ProductImagesModel,ProductOptionsModel,CategoryModel,ProductModel ,ProductCategoryModel})
+        
             
         
-        //ProductModel.belongsToMany(ProductImagesModel, { through: 'ProductImages' });
-        //ProductModel.belongsToMany(ProductOptionsModel, { through: 'ProductOptions' });
-        //ProductModel.belongsToMany(CategoryModel, { through: ProductCategoryModel });
+        
     }
 
     async listAll(request, response) {
-        CategoryModel.belongsToMany(ProductModel, { through: ProductCategoryModel, as: 'products' });
+        
         try {
             const products = await ProductModel.findAll({
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
@@ -30,6 +30,20 @@ class ProductController {
                         as: 'options',
                         
                     },
+
+                    {
+                        through: ProductCategoryModel,
+                        
+                        as: 'category_ids',
+                        model: CategoryModel,
+                       attributes: { exclude: ['name', 'description', 'slug', 'ProductCategoryMode','use_in_menu','createdAt', 'updatedAt','product_id']}
+                      
+                        
+                    }
+                   
+                   
+                    
+                
                 
                 ]
                 
@@ -62,6 +76,7 @@ class ProductController {
                         as: 'options',
                         
                     },
+                    
                 
                 ]
             });

@@ -1,4 +1,4 @@
-const ProductCategoryModel = require('../models/Product_CategoryModel');
+const ProductCategoryModel = require('../models/ProductCategoryModel');
 
 class ProductCategoryController {
 
