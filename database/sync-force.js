@@ -4,6 +4,6 @@ require ('../models/CategoryModel')
 require ('../models/ProductsModel')
 require ('../models/ProductImagesModel')
 require ('../models/ProductOptionsModel')
-require ('../models/Product_CategoryModel')
+require ('../models/ProductCategoryModel')
 
 connection.sync({force: true});
