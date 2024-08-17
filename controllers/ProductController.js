@@ -32,11 +32,11 @@ class ProductController {
                     },
 
                     {
-                        through: ProductCategoryModel,
+                        through: {attributes:[]},
                         
                         as: 'category_ids',
                         model: CategoryModel,
-                       attributes: { exclude: ['name', 'description', 'slug', 'ProductCategoryMode','use_in_menu','createdAt', 'updatedAt','product_id']}
+                       attributes:['id']
                       
                         
                     }
@@ -76,6 +76,7 @@ class ProductController {
                         as: 'options',
                         
                     },
+                    
                     
                 
                 ]
@@ -151,6 +152,15 @@ class ProductController {
                         as: 'options',
                         
                     },
+                    {
+                        through: {attributes:[]},
+                        
+                        as: 'category_ids',
+                        model: CategoryModel,
+                       attributes:['id']
+                      
+                        
+                    }
                 
                 ]
             });
