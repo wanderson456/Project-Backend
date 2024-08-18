@@ -21,6 +21,7 @@ class ProductController {
                 attributes: { exclude: ['createdAt', 'updatedAt'] },
                 include: [
                     {
+                        
                         model: ProductImagesModel,
                         as: 'images',
                         attributes: ['id', 'path']
@@ -55,33 +56,53 @@ class ProductController {
     }
 
     async create(request, response) {
-        const { enabled, name, slug, stock, description, price, price_with_discount } = request.body;
-
+        const { enabled, name, slug, stock, description, price, price_with_discount, category_ids, images, options } = request.body;
+    
         if (!name || !slug || price === undefined || price_with_discount === undefined) {
             return response.status(400).json({ message: "Dados incompletos. Campos obrigatórios: name, slug, price, price_with_discount." });
         }
-
+    
         try {
+            
             const newProduct = await ProductModel.create({
                 enabled, name, slug, stock, description, price, price_with_discount
-            }, {
-                include: [
-                    {
-                        model: ProductImagesModel,
-                        as: 'images',
-                        attributes: ['id', 'path']
-                    },
-                    {
-                        model: ProductOptionsModel,
-                        as: 'options',
-                        
-                    },
-                    
-                    
-                
-                ]
             });
-
+    
+            
+            if (category_ids && category_ids.length > 0) {
+                await Promise.all(category_ids.map(categoryId => 
+                    ProductCategoryModel.create({
+                        product_id: newProduct.id,
+                        category_id: categoryId
+                    })
+                ));
+            }
+    
+            
+            if (images && images.length > 0) {
+                await Promise.all(images.map(image => 
+                    ProductImagesModel.create({
+                        product_id: newProduct.id,
+                        enable: image.enable,
+                        path: image.path
+                    })
+                ));
+            }
+    
+            
+            if (options && options.length > 0) {
+                await Promise.all(options.map(option => 
+                    ProductOptionsModel.create({
+                        product_id: newProduct.id,
+                        title: option.title,
+                        shape: option.shape,
+                        radius: option.radius,
+                        type: option.type,
+                        values: option.value.join(',') 
+                    })
+                ));
+            }
+    
             return response.status(201).json({
                 message: "Produto cadastrado com sucesso",
                 product: newProduct
@@ -90,7 +111,7 @@ class ProductController {
             return response.status(500).json({ message: "Erro ao cadastrar produto", error });
         }
     }
-
+    
     async search(request, response) {
         try {
             const { limit = 12, page = 1, fields, match, category_ids, price_range, option } = request.query;

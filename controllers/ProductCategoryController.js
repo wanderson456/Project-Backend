@@ -19,7 +19,7 @@ class ProductCategoryController {
         }
 
         try {
-            const newProductCategory = await ProductCategoryModel.create({
+             await ProductCategoryModel.create({
                 product_id,
                 category_id
             });
