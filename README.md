@@ -112,3 +112,102 @@ node database/sync.force.js
 npm start
 ```
 O servidor estará disponível em http://localhost:3000.
+
+## Endpoints Disponíveis
+# Usuarios 
+- **`POST /v1/user`**: Lista todos os usuários
+- **`GET /v1/user:`**:Retorna um usuário pelo ID
+-  **`GET /v1/user/id:`**: Cria um novo usuário
+-  **`PUT /v1/user/id:`**: Atualiza um usuário pelo ID
+-  **`DELETE /v1/user/id:`**:   Deleta um usuário pelo ID
+
+
+ 
+
+## Autenticação
+-  **`POST /v1/user/token:`**: Gera um token JWT para autenticação Usuários
+# Produtos 
+- **`POST /v1/product`**: Cria um novo produto
+- **`GET /v1/product/search:`**: Pesquisa produtos com filtros
+- **`GET /v1/product:`**: Lista todos os produtos
+-  **`GET /v1/product/id:`**:  Retorna um produto pelo ID
+-  **`PUT /v1/product/id:`**:   Atualiza um produto pelo ID
+-  **`DELETE /v1/product/id:`**:  Deleta um produto pelo ID
+-  **Exemplo de criação de um produto:**
+- Criando apenas um produto:
+ ```bash
+{
+    "enabled": true,
+    "name": "Produto 01",
+    "slug": "produto-01",
+    "stock": 10,
+    "description": "Descrição do produto 01",
+    "price": 119.90,
+    "price_with_discount": 99.90,
+}
+```
+- Criando  produto com imagens e opçoes do produto e fazendo associaçao com categoria ja existente:
+ ```bash
+{
+    "enabled": true,
+    "name": "Produto 02",
+    "slug": "produto-02",
+    "stock": 10,
+    "description": "Descrição do produto 02",
+    "price": 119.90,
+    "price_with_discount": 99.90,
+	"category_ids":[1],
+    "images": [ 
+      {
+        "path": "image/jpg" 
+      },
+	{
+        "path": "image2/jpg" 
+      }
+    ],
+    "options": [
+      {
+        "title": "Cor",
+        "shape": "square",
+        "radius": 4,
+        "type": "text",
+        "value": ["PP", "GG", "M"]
+      }
+     
+    ]
+}
+```
+# Categorias
+- **`POST /v1/category`**: Cria uma nova categoria
+- **`GET /v1/category:`**: Lista todas as categorias
+-  **`GET /v1/category/id:`**:  Retorna uma categoria pelo ID
+-  **`PUT /v1/category/id:`**:   Atualiza uma categoria pelo ID
+-  **`DELETE /v1/category/id:`**:  Deleta uma categoria pelo ID
+
+# Associar Produto a  Categorias
+- **`POST /v1/productcategory`**: Associa um produtoa uma categoria
+- **`GET /v1/productcategory:`**: Lista todas as associaçoes entre produto e categorias
+-  **`GET /v1/productcategory/id:`**:  Retorna uma associaçao entre produto e categoria pelo ID
+-  **`PUT /v1/productcategory/id:`**:   Atualiza uma associaçao entre produto e categoria pelo ID
+-  **`DELETE /v1/productcategory/id:`**:  Deleta uma uma associaçao entre produto e categoria pelo ID
+
+# Imagens de um Produto
+- **`POST /v1/productimage`**: Cria uma Imagen de um Produto
+- **`GET /v1/productimage:`**: Lista todas as Imagens de um Produto
+-  **`GET /v1/productimage/id:`**:Retorna uma Imagem de produto pelo ID
+-  **`PUT /v1/productimage/id:`**: Atualiza uma imagem de produto pelo ID
+-  **`DELETE /v1/productimage/id:`**: Deleta uma imagem de produto pelo ID
+-  
+# Opções de Produtos
+- **`POST /v1/productoption`**:  Cria uma nova opção de produto
+- **`GET /v1/productoption:`**: Lista todas as opções de produtos
+-  **`GET /v1/productoption/id:`**:Retorna uma opção de produto pelo ID
+-  **`PUT /v1/productoption/id:`**: Atualiza uma opção de produto pelo ID
+-  **`DELETE /v1/productoption/id:`**: Deleta uma opção de produto pelo ID
+
+
+
+
+
+
+
