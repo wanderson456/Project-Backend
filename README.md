@@ -84,7 +84,7 @@ CREATE DATABASE nome_do_banco;
 ```
 
 ## Crie  sua chave secreta 
-no arquivo .env voce cria sua chave secreta , se preferir pode as informaçoes das variaveis de ambiente nesse aquivo e usar como variavel no connection.js
+no arquivo .env voce cria sua chave secreta , se preferir pode adicionar as informaçoes das variaveis de ambiente nesse aquivo e usar como variavel no connection.js
 ```bash
 DB_HOST=localhost
 DB_USER=root
